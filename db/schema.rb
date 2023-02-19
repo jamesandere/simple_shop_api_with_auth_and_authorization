@@ -10,35 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_07_180006) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_13_162713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "brands", force: :cascade do |t|
+  create_table "authors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "product_tags", force: :cascade do |t|
-    t.bigint "product_id"
-    t.bigint "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_tags_on_product_id"
-    t.index ["tag_id"], name: "index_product_tags_on_tag_id"
-  end
-
-  create_table "products", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.integer "price"
-    t.integer "brand_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.string "name"
+  create_table "category_posts", force: :cascade do |t|
+    t.bigint "post_id"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_posts_on_category_id"
+    t.index ["post_id"], name: "index_category_posts_on_post_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,5 +51,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_180006) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "products", "brands"
+  add_foreign_key "posts", "authors"
 end

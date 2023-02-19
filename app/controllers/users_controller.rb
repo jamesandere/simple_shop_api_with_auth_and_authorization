@@ -7,16 +7,17 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.create!(user_params)
+        @user = User.create(user_params)
         if @user.valid?
             @token = encode_token({user_id: @user.id})
             render status: 201, json: {
                 message: 'User created successfully',
                 jwt: @token
-            }
+            } 
+
         else
             render json: {
-                message: 'Failed to create user',
+                message: 'Failed to create user!'
             }    
         end
     end
