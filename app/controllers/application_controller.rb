@@ -12,11 +12,11 @@ class ApplicationController < ActionController::API
 
     def decoded_token
         if auth_header
-            token = auth_header.split(" ")[1]
+            token = auth_header.split(' ')[1]
             begin
-                JWT.decode(token, 'secret')
-             rescu JWT::DecodeError
-                nil
+                JWT.decode(token, 'secret', true, algorithm: 'HS256')
+            rescue JWT::DecodeError
+                nil    
             end    
         end
     end
@@ -38,12 +38,12 @@ class ApplicationController < ActionController::API
         end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |exception|
-        json_response({ message: exception.message }, :not_found )
-    end
-    
-    rescue_from ActiveRecord::RecordInvalid do |exception|
-        json_response({ message: exception.message }, 422)
-    end
-    
+rescue_from ActiveRecord::RecordNotFound do |exception|
+    json_response({ message: exception.message }, :not_found )
+end
+
+rescue_from ActiveRecord::RecordInvalid do |exception|
+    json_response({ message: exception.message }, 422)
+end
+
 end
